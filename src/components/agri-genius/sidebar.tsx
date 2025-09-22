@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -42,7 +43,7 @@ export default function AppSidebar() {
                   asChild
                   variant="default"
                   size="lg"
-                  isActive={pathname.startsWith(item.href) && (item.href === '/dashboard' ? pathname === item.href : true)}
+                  isActive={pathname === item.href || (pathname.startsWith(item.href) && item.href !== '/dashboard')}
                   tooltip={item.tooltip}
                 >
                   <Link href={item.href}>
