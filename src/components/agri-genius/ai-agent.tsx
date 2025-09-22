@@ -29,16 +29,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-// SpeechRecognition setup
-const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-let recognition: any;
-if (SpeechRecognition) {
-  recognition = new SpeechRecognition();
-  recognition.continuous = false;
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-}
+let recognition: any = null;
 
 export default function AIAgent() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -49,6 +40,7 @@ export default function AIAgent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isSpeechSupported, setIsSpeechSupported] = useState(false);
 
 
   const form = useForm<FormData>({
@@ -68,35 +60,45 @@ export default function AIAgent() {
   }, [messages]);
 
   useEffect(() => {
-    if (!recognition) return;
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      setIsSpeechSupported(true);
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
 
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      form.setValue('prompt', transcript);
-      stopRecording();
-      // Automatically submit the form with the transcribed text
-      form.handleSubmit(onSubmit)();
-    };
-
-    recognition.onerror = (event: any) => {
-      console.error('Speech recognition error:', event.error);
-      toast({
-        variant: 'destructive',
-        title: 'Voice Error',
-        description: `An error occurred during speech recognition: ${event.error}`,
-      });
-      stopRecording();
-    };
-    
-    recognition.onend = () => {
-      if (isRecording) {
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        form.setValue('prompt', transcript);
         stopRecording();
-      }
-    };
-  }, [form, toast, isRecording]);
+        form.handleSubmit(onSubmit)();
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        toast({
+          variant: 'destructive',
+          title: 'Voice Error',
+          description: `An error occurred during speech recognition: ${event.error}`,
+        });
+        stopRecording();
+      };
+      
+      recognition.onend = () => {
+        // This check is to prevent stopRecording from being called twice.
+        if (isRecording) {
+          stopRecording();
+        }
+      };
+    } else {
+        setIsSpeechSupported(false);
+    }
+  }, [form, toast, isRecording]); // isRecording is a dependency to re-evaluate onend
   
   const startRecording = () => {
-    if (!recognition) {
+    if (!isSpeechSupported || !recognition) {
         toast({
             variant: "destructive",
             title: "Voice Not Supported",
@@ -109,7 +111,7 @@ export default function AIAgent() {
   };
 
   const stopRecording = () => {
-    if (!recognition) return;
+    if (!isSpeechSupported || !recognition) return;
     setIsRecording(false);
     recognition.stop();
   };
@@ -167,7 +169,7 @@ export default function AIAgent() {
         title: 'An error occurred.',
         description: 'Failed to get a response from the AI. Please try again.',
       });
-      setMessages(prev => prev.slice(0, -1)); // Remove user message if API fails
+      // Do not remove the user message on failure, so they can retry.
     } finally {
       setIsLoading(false);
     }
@@ -263,13 +265,13 @@ export default function AIAgent() {
               disabled={isLoading || isRecording}
               className="flex-1 h-12 text-base"
             />
-            {SpeechRecognition && (
+            {isSpeechSupported && (
                 <Button type="button" variant={isRecording ? "destructive" : "outline"} size="icon" className="h-12 w-12" onClick={isRecording ? stopRecording : startRecording} disabled={isLoading}>
                     {isRecording ? <StopCircle className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
                     <span className="sr-only">{isRecording ? 'Stop recording' : 'Start recording'}</span>
                 </Button>
             )}
-            <Button type="submit" disabled={isLoading || isRecording} size="lg" className="h-12">
+            <Button type="submit" disabled={isLoading || form.watch('prompt') === '' && !imagePreview} size="lg" className="h-12">
               <Send className="w-5 h-5" />
               <span className="sr-only">Send</span>
             </Button>
@@ -296,5 +298,3 @@ export default function AIAgent() {
     </div>
   );
 }
-
-    
