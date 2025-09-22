@@ -40,20 +40,18 @@ export default function AppSidebar() {
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-              <Link href={item.href} legacyBehavior passHref>
-                <SidebarMenuButton
-                  asChild
-                  variant="default"
-                  size="default"
-                  isActive={pathname === item.href}
-                  tooltip={item.tooltip}
-                >
-                  <a>
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.label}</span>
-                  </a>
-                </SidebarMenuButton>
-              </Link>
+              <SidebarMenuButton
+                asChild
+                variant="default"
+                size="default"
+                isActive={pathname === item.href}
+                tooltip={item.tooltip}
+              >
+                <Link href={item.href}>
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.label}</span>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
