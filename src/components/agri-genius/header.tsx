@@ -9,9 +9,7 @@ export default function AppHeader() {
   return (
     <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6 lg:px-8">
       <div className="md:hidden">
-        <SidebarTrigger asChild>
-            <Button variant="ghost" size="icon"><span className="sr-only">Toggle Sidebar</span></Button>
-        </SidebarTrigger>
+        <SidebarTrigger />
       </div>
       <div className="flex-1">
         {/* Can add breadcrumbs or page title here if needed */}
