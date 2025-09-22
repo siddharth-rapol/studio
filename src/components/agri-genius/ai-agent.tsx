@@ -36,6 +36,13 @@ export default function AIAgent() {
   const router = useRouter();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      prompt: '',
+    },
+  });
+
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
