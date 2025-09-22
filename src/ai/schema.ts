@@ -46,14 +46,14 @@ export const OptimizeIrrigationScheduleInputSchema = z.object({
   cropType: z.string().describe('The type of crop being grown.'),
   farmSize: z.number().describe('The size of the farm in acres.'),
   waterSource: z.string().describe('The source of water for irrigation.'),
-  irrigationMethod: z.string().describe('The method of irrigation used.'),
+  irrigationMethod: z
+    .string()
+    .describe('The method of irrigation used.'),
   cropHistory: z.string().describe('A description of the crop history.'),
   gpsLocation: z.string().describe('The GPS location of the farm.'),
   elevation: z.number().describe('The elevation of the farm.'),
 });
-export type OptimizeIrrigationScheduleInput = z.infer<
-  typeof OptimizeIrrigationScheduleInputSchema
->;
+export type OptimizeIrrigationScheduleInput = z.infer<typeof OptimizeIrrigationScheduleInputSchema>;
 
 export const OptimizeIrrigationScheduleOutputSchema = z.object({
   irrigationSchedule: z
@@ -64,7 +64,4 @@ export const OptimizeIrrigationScheduleOutputSchema = z.object({
     .describe('Estimated water usage based on irrigation schedule.'),
   notes: z.string().describe('Any additional notes or recommendations.'),
 });
-export type OptimizeIrrigationScheduleOutput = z.infer<
-  typeof OptimizeIrrigationScheduleOutputSchema
->;
-
+export type OptimizeIrrigationScheduleOutput = z.infer<typeof OptimizeIrrigationScheduleOutputSchema>;
