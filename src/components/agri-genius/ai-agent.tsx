@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -11,11 +10,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Bot, Loader2, Send, Sparkles } from 'lucide-react';
-import { useAuth } from '../auth-provider';
+import { Bot, Loader2, Send, Sparkles, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '../ui/card';
-import { useRouter } from 'next/navigation';
 
 type Message = {
   role: 'user' | 'model';
@@ -32,8 +29,6 @@ export default function AIAgent() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const { user, loading } = useAuth();
-  const router = useRouter();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<FormData>({
@@ -42,12 +37,6 @@ export default function AIAgent() {
       prompt: '',
     },
   });
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
   
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -57,12 +46,6 @@ export default function AIAgent() {
         }
     }
   }, [messages]);
-
-  const getInitials = (name: string | null | undefined) => {
-    if (!name) return 'U';
-    const names = name.split(' ');
-    return names.length > 1 ? `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase() : name.substring(0, 2).toUpperCase();
-  };
 
   async function onSubmit(data: FormData) {
     const userMessage: Message = { role: 'user', content: data.prompt };
@@ -88,14 +71,6 @@ export default function AIAgent() {
     } finally {
       setIsLoading(false);
     }
-  }
-  
-  if (loading || !user) {
-    return (
-        <div className="flex h-full items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-    );
   }
 
   return (
@@ -135,8 +110,7 @@ export default function AIAgent() {
                 </div>
                 {message.role === 'user' && (
                   <Avatar className="w-8 h-8">
-                    <AvatarImage src={user?.photoURL ?? undefined} />
-                    <AvatarFallback>{getInitials(user?.displayName)}</AvatarFallback>
+                    <AvatarFallback><User className="w-5 h-5" /></AvatarFallback>
                   </Avatar>
                 )}
               </div>
