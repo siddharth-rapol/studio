@@ -1,3 +1,4 @@
+
 {
   "placeholderImages": [
     {
@@ -5,6 +6,24 @@
       "description": "A lush green farm field under a blue sky",
       "imageUrl": "https://picsum.photos/seed/farm/1920/1080",
       "imageHint": "farm field"
+    },
+    {
+      "id": "hero-tractor",
+      "description": "A modern tractor working in a field at sunset",
+      "imageUrl": "https://picsum.photos/seed/tractor/1920/1080",
+      "imageHint": "tractor sunset"
+    },
+    {
+      "id": "hero-drone",
+      "description": "A drone flying over a vast agricultural landscape",
+      "imageUrl": "https://picsum.photos/seed/drone/1920/1080",
+      "imageHint": "drone agriculture"
+    },
+    {
+      "id": "hero-hands",
+      "description": "Farmer's hands holding rich soil with a small sprout",
+      "imageUrl": "https://picsum.photos/seed/soil/1920/1080",
+      "imageHint": "hands soil"
     }
   ]
 }

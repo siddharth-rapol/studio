@@ -5,6 +5,8 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import LandingPageHeader from '@/components/agri-genius/landing-page-header';
 import { Bot, Droplets, Sun, AreaChart, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay"
 
 const features = [
   {
@@ -34,25 +36,33 @@ const features = [
 ];
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find((img) => img.id === 'hero-farm');
+  const heroImages = PlaceHolderImages.filter(img => img.id.startsWith('hero-'));
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <LandingPageHeader />
       <main className="flex-1">
-        <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32">
-          {heroImage ? (
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover"
-              data-ai-hint={heroImage.imageHint}
-              priority
-            />
-          ) : (
-            <div className="absolute inset-0 bg-secondary" />
-          )}
+        <section className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center">
+            <Carousel 
+              className="w-full h-full"
+              plugins={[ Autoplay({ delay: 5000, stopOnInteraction: true })]}
+              opts={{ loop: true }}
+            >
+                <CarouselContent className="w-full h-full">
+                    {heroImages.map((image) => (
+                        <CarouselItem key={image.id} className="w-full h-full">
+                            <Image
+                                src={image.imageUrl}
+                                alt={image.description}
+                                fill
+                                className="object-cover"
+                                data-ai-hint={image.imageHint}
+                                priority={heroImages.indexOf(image) === 0}
+                            />
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+            </Carousel>
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20" />
           <div className="relative container mx-auto px-4 md:px-6 text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
