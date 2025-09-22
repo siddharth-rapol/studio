@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sprout, LayoutDashboard, Bug, Droplets, Sun, AreaChart } from 'lucide-react';
+import { Sprout, LayoutDashboard, Bot, Droplets, Sun, AreaChart } from 'lucide-react';
 
 import {
   Sidebar,
@@ -16,7 +16,7 @@ import {
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', tooltip: 'Dashboard' },
-  { href: '/dashboard/disease-prediction', icon: Bug, label: 'Disease Prediction', tooltip: 'Disease Prediction' },
+  { href: '/dashboard/ai-agent', icon: Bot, label: 'AI Agent', tooltip: 'AI Agent' },
   { href: '/dashboard/irrigation-optimization', icon: Droplets, label: 'Irrigation', tooltip: 'Irrigation Optimization' },
   { href: '/dashboard/climate-advice', icon: Sun, label: 'Climate Advice', tooltip: 'Climate Advice' },
   { href: '/dashboard/market-insights', icon: AreaChart, label: 'Market', tooltip: 'Market Insights' },
