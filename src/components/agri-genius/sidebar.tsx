@@ -12,8 +12,6 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', tooltip: 'Dashboard' },
@@ -27,31 +25,31 @@ export default function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="w-72" collapsible="icon">
+    <Sidebar className="w-64" collapsible="icon">
       <SidebarHeader>
-        <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+        <Link href="/dashboard" className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <Sprout className="h-5 w-5" />
             </div>
-            <span className="font-semibold text-lg group-data-[collapsible=icon]:hidden">AgriGenius</span>
+            <span className="font-semibold text-xl group-data-[collapsible=icon]:hidden">AgriGenius</span>
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
+        <SidebarMenu className="p-2">
           {navItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-              <SidebarMenuButton
-                asChild
-                variant="default"
-                size="default"
-                isActive={pathname === item.href}
-                tooltip={item.tooltip}
-              >
-                <Link href={item.href}>
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </Link>
-              </SidebarMenuButton>
+                <SidebarMenuButton
+                  asChild
+                  variant="default"
+                  size="lg"
+                  isActive={pathname.startsWith(item.href) && (item.href === '/dashboard' ? pathname === item.href : true)}
+                  tooltip={item.tooltip}
+                >
+                  <Link href={item.href}>
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.label}</span>
+                  </Link>
+                </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
