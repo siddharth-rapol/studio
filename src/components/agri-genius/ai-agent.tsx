@@ -11,10 +11,11 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Bot, Loader2, Paperclip, Send, Sparkles, User, X } from 'lucide-react';
+import { Bot, Loader2, Paperclip, Send, Sparkles, User, X, Mic, StopCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '../ui/card';
 import Image from 'next/image';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 type Message = {
   role: 'user' | 'model';
@@ -28,6 +29,17 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+// SpeechRecognition setup
+const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+let recognition: any;
+if (SpeechRecognition) {
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+}
+
 export default function AIAgent() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +47,9 @@ export default function AIAgent() {
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -51,7 +66,54 @@ export default function AIAgent() {
         }
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (!recognition) return;
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      form.setValue('prompt', transcript);
+      stopRecording();
+      // Automatically submit the form with the transcribed text
+      form.handleSubmit(onSubmit)();
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      toast({
+        variant: 'destructive',
+        title: 'Voice Error',
+        description: `An error occurred during speech recognition: ${event.error}`,
+      });
+      stopRecording();
+    };
+    
+    recognition.onend = () => {
+      if (isRecording) {
+        stopRecording();
+      }
+    };
+  }, [form, toast, isRecording]);
   
+  const startRecording = () => {
+    if (!recognition) {
+        toast({
+            variant: "destructive",
+            title: "Voice Not Supported",
+            description: "Your browser does not support speech recognition.",
+        });
+        return;
+    }
+    setIsRecording(true);
+    recognition.start();
+  };
+
+  const stopRecording = () => {
+    if (!recognition) return;
+    setIsRecording(false);
+    recognition.stop();
+  };
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -71,6 +133,11 @@ export default function AIAgent() {
   }
 
   async function onSubmit(data: FormData) {
+    if (isRecording) {
+      stopRecording();
+      return;
+    }
+
     const userMessage: Message = { role: 'user', content: data.prompt, image: imagePreview ?? undefined };
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
@@ -88,6 +155,11 @@ export default function AIAgent() {
       });
       const modelMessage: Message = { role: 'model', content: response.response };
       setMessages((prev) => [...prev, modelMessage]);
+
+      // Generate and play audio
+      const audioResponse = await textToSpeech(response.response);
+      setAudioUrl(audioResponse.media);
+
     } catch (error) {
       console.error('Error with AI Agent:', error);
       toast({
@@ -116,7 +188,7 @@ export default function AIAgent() {
                         </div>
                         <h2 className="text-2xl font-semibold text-primary/90">Welcome to AgriGenius!</h2>
                         <p className="text-muted-foreground mt-2">
-                           I am your farming assistant, powered by Gemini. Ask me about crops, soil, weather, or anything else to help your farm succeed. You can also upload an image of a plant to get a disease diagnosis.
+                           I am your farming assistant, powered by Gemini. Ask me about crops, soil, weather, or anything else to help your farm succeed. You can also upload an image of a plant to get a disease diagnosis. Press the microphone to speak your question.
                         </p>
                     </CardContent>
                 </Card>
@@ -173,7 +245,7 @@ export default function AIAgent() {
             </div>
           )}
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-2 items-center">
-            <Button type="button" variant="ghost" size="icon" onClick={() => fileInputRef.current?.click()} disabled={isLoading}>
+            <Button type="button" variant="ghost" size="icon" onClick={() => fileInputRef.current?.click()} disabled={isLoading || isRecording}>
               <Paperclip className="w-5 h-5" />
               <span className="sr-only">Attach Image</span>
             </Button>
@@ -188,16 +260,41 @@ export default function AIAgent() {
               {...form.register('prompt')}
               placeholder="Ask about your crops or upload an image..."
               autoComplete="off"
-              disabled={isLoading}
+              disabled={isLoading || isRecording}
               className="flex-1 h-12 text-base"
             />
-            <Button type="submit" disabled={isLoading} size="lg">
+            {SpeechRecognition && (
+                <Button type="button" variant={isRecording ? "destructive" : "outline"} size="icon" className="h-12 w-12" onClick={isRecording ? stopRecording : startRecording} disabled={isLoading}>
+                    {isRecording ? <StopCircle className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
+                    <span className="sr-only">{isRecording ? 'Stop recording' : 'Start recording'}</span>
+                </Button>
+            )}
+            <Button type="submit" disabled={isLoading || isRecording} size="lg" className="h-12">
               <Send className="w-5 h-5" />
               <span className="sr-only">Send</span>
             </Button>
           </form>
         </div>
       </div>
+      {audioUrl && (
+        <audio
+          src={audioUrl}
+          autoPlay
+          onEnded={() => setAudioUrl(null)}
+          onPlay={() => setAudioUrl(audioUrl)}
+          onError={() => {
+            toast({
+              variant: 'destructive',
+              title: 'Audio Error',
+              description: 'Could not play the audio response.',
+            });
+            setAudioUrl(null);
+          }}
+          className="hidden"
+        />
+      )}
     </div>
   );
 }
+
+    
