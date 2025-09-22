@@ -43,7 +43,7 @@ const TrendIcon = ({ trend }: { trend: string }) => {
 };
 
 export default function MarketInsightsPage() {
-    const [location, setLocation] = useState&lt;keyof typeof marketData&gt;("usa-midwest");
+    const [location, setLocation] = useState<keyof typeof marketData>("usa-midwest");
     const data = marketData[location];
 
     return (

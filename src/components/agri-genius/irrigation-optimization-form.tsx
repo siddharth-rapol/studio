@@ -14,7 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Sparkles, Water, GanttChartSquare } from "lucide-react";
+import { Loader2, Sparkles, Droplets, GanttChartSquare } from "lucide-react";
 import { Separator } from "../ui/separator";
 
 const formSchema = z.object({
@@ -167,7 +167,7 @@ export default function IrrigationOptimizationForm() {
              </div>
              <Separator/>
              <div>
-                <h3 className="font-semibold flex items-center gap-2 mb-2"><Water className="h-5 w-5" />Estimated Water Usage</h3>
+                <h3 className="font-semibold flex items-center gap-2 mb-2"><Droplets className="h-5 w-5" />Estimated Water Usage</h3>
                 <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap">{result.waterUsageEstimate}</div>
              </div>
              <Separator/>
