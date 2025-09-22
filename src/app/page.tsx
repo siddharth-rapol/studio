@@ -9,25 +9,25 @@ import HeroCarousel from '@/components/agri-genius/hero-carousel';
 
 const features = [
   {
-    icon: <Bot className="h-10 w-10 text-primary" />,
+    icon: Bot,
     title: 'AI Agent',
     description: 'Get instant answers to your farming questions with our conversational AI assistant.',
     link: '/dashboard/ai-agent',
   },
   {
-    icon: <Droplets className="h-10 w-10 text-primary" />,
+    icon: Droplets,
     title: 'Irrigation Optimization',
     description: 'Receive optimized irrigation schedules based on soil type, weather, and crop.',
     link: '/dashboard/irrigation-optimization',
   },
   {
-    icon: <Sun className="h-10 w-10 text-primary" />,
+    icon: Sun,
     title: 'Climate-Adaptive Advice',
     description: 'Enhance crop yield and resilience with advice tailored to changing weather patterns.',
     link: '/dashboard/climate-advice',
   },
   {
-    icon: <AreaChart className="h-10 w-10 text-primary" />,
+    icon: AreaChart,
     title: 'Market Insights',
     description: 'Stay ahead with real-time market demand and price trends for profitability.',
     link: '/dashboard/market-insights',
@@ -72,19 +72,22 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-                    {features.map((feature) => (
-                        <Card key={feature.title} className="text-center hover:shadow-lg transition-shadow">
-                            <CardHeader>
-                                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 mb-4">
-                                    {feature.icon}
-                                </div>
-                                <CardTitle>{feature.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-muted-foreground">{feature.description}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
+                    {features.map((feature) => {
+                        const Icon = feature.icon;
+                        return (
+                            <Card key={feature.title} className="text-center hover:shadow-lg transition-shadow">
+                                <CardHeader>
+                                    <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 mb-4">
+                                        <Icon className="h-10 w-10 text-primary" />
+                                    </div>
+                                    <CardTitle>{feature.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className="text-muted-foreground">{feature.description}</p>
+                                </CardContent>
+                            </Card>
+                        );
+                    })}
                 </div>
             </div>
         </section>
