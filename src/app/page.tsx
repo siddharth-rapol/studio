@@ -5,8 +5,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import LandingPageHeader from '@/components/agri-genius/landing-page-header';
 import { Bot, Droplets, Sun, AreaChart, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
-import Autoplay from "embla-carousel-autoplay"
+import HeroCarousel from '@/components/agri-genius/hero-carousel';
 
 const features = [
   {
@@ -36,33 +35,14 @@ const features = [
 ];
 
 export default function Home() {
-  const heroImages = PlaceHolderImages.filter(img => img.id.startsWith('hero-'));
+  const dashboardImage = PlaceHolderImages.find(img => img.id === 'dashboard-showcase');
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <LandingPageHeader />
       <main className="flex-1">
         <section className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center">
-            <Carousel 
-              className="w-full h-full"
-              plugins={[ Autoplay({ delay: 5000, stopOnInteraction: true })]}
-              opts={{ loop: true }}
-            >
-                <CarouselContent className="w-full h-full">
-                    {heroImages.map((image) => (
-                        <CarouselItem key={image.id} className="w-full h-full">
-                            <Image
-                                src={image.imageUrl}
-                                alt={image.description}
-                                fill
-                                className="object-cover"
-                                data-ai-hint={image.imageHint}
-                                priority={heroImages.indexOf(image) === 0}
-                            />
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-            </Carousel>
+            <HeroCarousel />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20" />
           <div className="relative container mx-auto px-4 md:px-6 text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
@@ -133,14 +113,16 @@ export default function Home() {
                         </ul>
                     </div>
                      <div>
-                        <Image
-                            src="https://picsum.photos/seed/dashboard/600/400"
-                            alt="AgriGenius Dashboard"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-xl"
-                            data-ai-hint="dashboard analytics"
-                        />
+                        {dashboardImage && (
+                            <Image
+                                src={dashboardImage.imageUrl}
+                                alt={dashboardImage.description}
+                                width={600}
+                                height={400}
+                                className="rounded-lg shadow-xl"
+                                data-ai-hint={dashboardImage.imageHint}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
