@@ -7,14 +7,19 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
 import { AgentFlowInput, AgentFlowOutput, AgentFlowOutputSchema } from '@/ai/schema';
 
 export async function agentFlow(input: AgentFlowInput): Promise<AgentFlowOutput> {
-    const { history, prompt } = input;
+    const { history, prompt, image } = input;
 
-    const fullPrompt = `You are AgriGenius, an expert AI assistant for Indian farmers. Your knowledge covers all aspects of agriculture in the Indian context, including but not limited to: crop management for local crops (rice, wheat, millet, sugarcane, cotton, etc.), soil types found in India, pest and disease control for the region, monsoon-based irrigation techniques, government schemes for farmers (like PM-KISAN), and local market (mandi) trends. Provide clear, actionable, simple, and data-driven advice. Always respond in a helpful and encouraging tone.
+    let fullPrompt = `You are AgriGenius, an expert AI assistant for Indian farmers. Your knowledge covers all aspects of agriculture in the Indian context, including but not limited to: crop management for local crops (rice, wheat, millet, sugarcane, cotton, etc.), soil types found in India, pest and disease control for the region, monsoon-based irrigation techniques, government schemes for farmers (like PM-KISAN), and local market (mandi) trends. Provide clear, actionable, simple, and data-driven advice. Always respond in a helpful and encouraging tone.
+    `;
 
+    if (image) {
+        fullPrompt += `The user has provided an image for context. Analyze the image and use it to inform your response. If the user is asking about a plant disease, use the image to identify the plant and diagnose the problem. Provide a diagnosis and suggest treatment options.`;
+    }
+
+    fullPrompt += `
     Conversation History:
     ${history.map(msg => `${msg.role}: ${msg.content}`).join('\n')}
     
@@ -26,8 +31,13 @@ export async function agentFlow(input: AgentFlowInput): Promise<AgentFlowOutput>
     Your Response:
     `;
 
+    const promptParts = [{ text: fullPrompt }];
+    if (image) {
+      promptParts.push({ media: { url: image } });
+    }
+
     const { output } = await ai.generate({
-        prompt: fullPrompt,
+        prompt: promptParts,
         output: {
             schema: AgentFlowOutputSchema
         }

@@ -10,6 +10,7 @@ const MessageSchema = z.object({
 export const AgentFlowInputSchema = z.object({
   history: z.array(MessageSchema),
   prompt: z.string(),
+  image: z.string().optional().describe("A photo of a plant, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
 });
 export type AgentFlowInput = z.infer<typeof AgentFlowInputSchema>;
 
