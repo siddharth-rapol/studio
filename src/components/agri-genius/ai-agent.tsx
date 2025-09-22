@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { agentFlow } from '@/ai/flows/agent-flow';
 import { useToast } from '@/hooks/use-toast';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -74,19 +74,19 @@ export default function AIAgent() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-background">
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
           <div className="max-w-3xl mx-auto space-y-6">
             {messages.length === 0 && (
-                <Card className="bg-green-50 dark:bg-green-900/20 border-dashed border-green-200 dark:border-green-800">
+                <Card className="bg-transparent border-dashed border-primary/50">
                     <CardContent className="p-6 text-center">
                         <div className="flex justify-center items-center mb-4">
                             <div className="p-3 bg-primary/10 rounded-full">
                                 <Sparkles className="w-8 h-8 text-primary" />
                             </div>
                         </div>
-                        <h2 className="text-2xl font-semibold text-green-900 dark:text-green-100">Welcome to AgriGenius!</h2>
+                        <h2 className="text-2xl font-semibold text-primary/90">Welcome to AgriGenius!</h2>
                         <p className="text-muted-foreground mt-2">
                            I am your farming assistant, powered by Gemini. Ask me about crops, soil, weather, or anything else to help your farm succeed.
                         </p>
