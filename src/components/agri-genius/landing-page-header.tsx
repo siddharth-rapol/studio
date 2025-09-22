@@ -44,7 +44,7 @@ export default function LandingPageHeader() {
         <span className={cn("ml-2 text-lg font-bold", isScrolled ? "text-foreground" : "text-primary-foreground")}>AgriGenius</span>
       </Link>
       <nav className="ml-auto flex items-center gap-4 sm:gap-6">
-        <Link href="/dashboard" className={cn("text-sm font-medium hover:underline underline-offset-4", isScrolled ? "text-foreground" : "text-primary-foreground")} prefetch={false}>
+        <Link href="/#features" className={cn("text-sm font-medium hover:underline underline-offset-4", isScrolled ? "text-foreground" : "text-primary-foreground")} prefetch={false}>
           Features
         </Link>
         <Link href="/dashboard" className={cn("text-sm font-medium hover:underline underline-offset-4", isScrolled ? "text-foreground" : "text-primary-foreground")} prefetch={false}>
