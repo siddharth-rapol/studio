@@ -29,7 +29,6 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-let recognition: any = null;
 
 export default function AIAgent() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -41,6 +40,7 @@ export default function AIAgent() {
   const [isRecording, setIsRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isSpeechSupported, setIsSpeechSupported] = useState(false);
+  const recognitionRef = useRef<any>(null);
 
 
   const form = useForm<FormData>({
@@ -63,7 +63,7 @@ export default function AIAgent() {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (SpeechRecognition) {
       setIsSpeechSupported(true);
-      recognition = new SpeechRecognition();
+      const recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.lang = 'en-US';
       recognition.interimResults = false;
@@ -87,18 +87,18 @@ export default function AIAgent() {
       };
       
       recognition.onend = () => {
-        // This check is to prevent stopRecording from being called twice.
         if (isRecording) {
           stopRecording();
         }
       };
+      recognitionRef.current = recognition;
     } else {
         setIsSpeechSupported(false);
     }
-  }, [form, toast, isRecording]); // isRecording is a dependency to re-evaluate onend
+  }, [form, toast]); // Removed isRecording from dependencies
   
   const startRecording = () => {
-    if (!isSpeechSupported || !recognition) {
+    if (!isSpeechSupported || !recognitionRef.current) {
         toast({
             variant: "destructive",
             title: "Voice Not Supported",
@@ -107,13 +107,13 @@ export default function AIAgent() {
         return;
     }
     setIsRecording(true);
-    recognition.start();
+    recognitionRef.current.start();
   };
 
   const stopRecording = () => {
-    if (!isSpeechSupported || !recognition) return;
+    if (!isSpeechSupported || !recognitionRef.current) return;
     setIsRecording(false);
-    recognition.stop();
+    recognitionRef.current.stop();
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

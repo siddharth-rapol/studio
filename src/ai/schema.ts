@@ -90,3 +90,10 @@ export const DiagnosePlantOutputSchema = z.object({
     }),
 });
 export type DiagnosePlantOutput = z.infer<typeof DiagnosePlantOutputSchema>;
+
+
+// Text to Speech Schemas
+export const TextToSpeechOutputSchema = z.object({
+  media: z.string().describe('The base64 encoded audio data with data URI.'),
+});
+export type TextToSpeechOutput = z.infer<typeof TextToSpeechOutputSchema>;
