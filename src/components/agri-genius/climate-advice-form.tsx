@@ -1,10 +1,12 @@
+
 "use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { climateAdaptiveAdvice, type ClimateAdaptiveAdviceOutput } from "@/ai/flows/climate-adaptive-advice";
+import { climateAdaptiveAdvice } from "@/ai/flows/climate-adaptive-advice";
+import type { ClimateAdaptiveAdviceOutput } from "@/ai/schema";
 import { useToast } from "@/hooks/use-toast";
 
 import { Button } from "@/components/ui/button";

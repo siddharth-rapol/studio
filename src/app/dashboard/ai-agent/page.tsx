@@ -1,9 +1,3 @@
-import AIAgent from "@/components/agri-genius/ai-agent";
-
-export default function AIAgentPage() {
-    return (
-        <div className="h-[calc(100vh-10rem)]">
-            <AIAgent />
-        </div>
-    );
-}
+// This file is no longer needed for the simplified single-page layout.
+// I am removing its content to avoid conflicts.
+// The user can delete this file if they wish.

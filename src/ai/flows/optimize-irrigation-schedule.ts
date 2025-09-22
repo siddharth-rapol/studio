@@ -1,48 +1,14 @@
-// src/ai/flows/optimize-irrigation-schedule.ts
+
 'use server';
 
 /**
  * @fileOverview This file defines a Genkit flow for generating optimized irrigation schedules based on farm's soil and weather conditions.
  *
  * - optimizeIrrigationSchedule - A function that generates irrigation schedules.
- * - OptimizeIrrigationScheduleInput - The input type for the optimizeIrrigationSchedule function.
- * - OptimizeIrrigationScheduleOutput - The return type for the optimizeIrrigationSchedule function.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-
-const OptimizeIrrigationScheduleInputSchema = z.object({
-  soilType: z
-    .string()
-    .describe('The type of soil in the farm (e.g., sandy, clay, loam).'),
-  weatherConditions: z
-    .string()
-    .describe('The current weather conditions (e.g., sunny, cloudy, rainy).'),
-  cropType: z.string().describe('The type of crop being grown.'),
-  farmSize: z.number().describe('The size of the farm in acres.'),
-  waterSource: z.string().describe('The source of water for irrigation.'),
-  irrigationMethod: z.string().describe('The method of irrigation used.'),
-  cropHistory: z.string().describe('A description of the crop history.'),
-  gpsLocation: z.string().describe('The GPS location of the farm.'),
-  elevation: z.number().describe('The elevation of the farm.'),
-});
-export type OptimizeIrrigationScheduleInput = z.infer<
-  typeof OptimizeIrrigationScheduleInputSchema
->;
-
-const OptimizeIrrigationScheduleOutputSchema = z.object({
-  irrigationSchedule: z
-    .string()
-    .describe('The optimized irrigation schedule for the farm.'),
-  waterUsageEstimate: z
-    .string()
-    .describe('Estimated water usage based on irrigation schedule.'),
-  notes: z.string().describe('Any additional notes or recommendations.'),
-});
-export type OptimizeIrrigationScheduleOutput = z.infer<
-  typeof OptimizeIrrigationScheduleOutputSchema
->;
+import { OptimizeIrrigationScheduleInput, OptimizeIrrigationScheduleOutput, OptimizeIrrigationScheduleInputSchema, OptimizeIrrigationScheduleOutputSchema } from '@/ai/schema';
 
 export async function optimizeIrrigationSchedule(
   input: OptimizeIrrigationScheduleInput

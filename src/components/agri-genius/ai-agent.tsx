@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -10,10 +11,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Bot, Loader2, Send, Sparkles, User } from 'lucide-react';
+import { Bot, Loader2, Send, Sparkles } from 'lucide-react';
 import { useAuth } from '../auth-provider';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '../ui/card';
+import { useRouter } from 'next/navigation';
 
 type Message = {
   role: 'user' | 'model';
@@ -30,16 +32,16 @@ export default function AIAgent() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const router = useRouter();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      prompt: '',
-    },
-  });
-
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+  
   useEffect(() => {
     if (scrollAreaRef.current) {
         const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
@@ -80,6 +82,14 @@ export default function AIAgent() {
       setIsLoading(false);
     }
   }
+  
+  if (loading || !user) {
+    return (
+        <div className="flex h-full items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -87,16 +97,16 @@ export default function AIAgent() {
         <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
           <div className="max-w-3xl mx-auto space-y-6">
             {messages.length === 0 && (
-                <Card className="bg-accent/20 border-dashed">
+                <Card className="bg-green-50 dark:bg-green-900/20 border-dashed border-green-200 dark:border-green-800">
                     <CardContent className="p-6 text-center">
                         <div className="flex justify-center items-center mb-4">
                             <div className="p-3 bg-primary/10 rounded-full">
-                                <Sparkles className="w-6 h-6 text-primary" />
+                                <Sparkles className="w-8 h-8 text-primary" />
                             </div>
                         </div>
-                        <h2 className="text-xl font-semibold">Welcome to your AgriGenius AI Agent</h2>
+                        <h2 className="text-2xl font-semibold text-green-900 dark:text-green-100">Welcome to AgriGenius!</h2>
                         <p className="text-muted-foreground mt-2">
-                            Ask me anything about crop management, soil health, irrigation, market prices, and more!
+                           I am your farming assistant, powered by Gemini. Ask me about crops, soil, weather, or anything else to help your farm succeed.
                         </p>
                     </CardContent>
                 </Card>
@@ -109,7 +119,7 @@ export default function AIAgent() {
                   </Avatar>
                 )}
                 <div className={cn(
-                    'max-w-md rounded-lg p-3 text-sm whitespace-pre-wrap',
+                    'max-w-xl rounded-lg p-3 text-base whitespace-pre-wrap shadow-sm',
                     message.role === 'user'
                       ? 'bg-primary text-primary-foreground rounded-br-none'
                       : 'bg-card border rounded-bl-none'
@@ -130,9 +140,9 @@ export default function AIAgent() {
                         <AvatarFallback className="bg-primary text-primary-foreground"><Bot className="w-5 h-5"/></AvatarFallback>
                     </Avatar>
                     <div className="max-w-md rounded-lg p-3 text-sm bg-card border rounded-bl-none">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 text-muted-foreground">
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>Thinking...</span>
+                            <span>AgriGenius is thinking...</span>
                         </div>
                     </div>
                 </div>
@@ -144,13 +154,14 @@ export default function AIAgent() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-3xl mx-auto flex gap-2">
           <Input
             {...form.register('prompt')}
-            placeholder="Ask your AI agent anything..."
+            placeholder="Type your question for the AI assistant..."
             autoComplete="off"
             disabled={isLoading}
-            className="flex-1"
+            className="flex-1 h-12 text-base"
           />
-          <Button type="submit" disabled={isLoading} size="icon">
-            <Send className="w-4 h-4" />
+          <Button type="submit" disabled={isLoading} size="lg">
+            <Send className="w-5 h-5" />
+            <span className="sr-only">Send</span>
           </Button>
         </form>
       </div>

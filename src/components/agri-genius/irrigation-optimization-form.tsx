@@ -1,10 +1,12 @@
+
 "use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { optimizeIrrigationSchedule, type OptimizeIrrigationScheduleOutput } from "@/ai/flows/optimize-irrigation-schedule";
+import { optimizeIrrigationSchedule } from "@/ai/flows/optimize-irrigation-schedule";
+import type { OptimizeIrrigationScheduleOutput } from "@/ai/schema";
 import { useToast } from "@/hooks/use-toast";
 import { CROP_TYPES, IRRIGATION_METHODS, SOIL_TYPES, WATER_SOURCES } from "@/lib/types";
 

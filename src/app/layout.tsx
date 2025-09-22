@@ -2,19 +2,17 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { AuthProvider } from '@/components/auth-provider';
-import { PT_Sans } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
-const ptSans = PT_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-pt-sans',
+  variable: '--font-inter',
 });
 
 
 export const metadata: Metadata = {
   title: 'AgriGenius',
-  description: 'AI-Powered Smart Farming Assistant',
+  description: 'AI-Powered Smart Farming Assistant for India',
 };
 
 export default function RootLayout({
@@ -23,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark ${ptSans.variable}`}>
+    <html lang="en" className={`dark ${inter.variable}`}>
       <head>
       </head>
       <body className="font-body antialiased">
