@@ -17,7 +17,7 @@ export default function Home() {
       </header>
       <main className="flex-1">
         <section className="relative w-full h-screen">
-          {heroImage && (
+          {heroImage ? (
             <Image
               src={heroImage.imageUrl}
               alt={heroImage.description}
@@ -26,6 +26,8 @@ export default function Home() {
               data-ai-hint={heroImage.imageHint}
               priority
             />
+          ) : (
+            <div className="absolute inset-0 bg-secondary" />
           )}
           <div className="absolute inset-0 bg-black/60" />
           <div className="relative container mx-auto px-4 md:px-6 h-full flex flex-col items-center justify-center text-center text-primary-foreground">
