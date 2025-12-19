@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MID–1 Mathematics (Units 1.1 – 2.6)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Compatible with older Safari/iOS (circa 2010). No modern JS/CSS features. -->
+  <style>
+    /* Base typography and layout */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #111111;
+      font-family: "Times New Roman", Georgia, serif;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Headings */
+    h1, h2, h3 {
+      font-weight: bold;
+      margin: 16px 0 8px;
+      line-height: 1.25;
+    }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    h3 { font-size: 18px; }
+
+    /* Section separators */
+    .hr {
+      border: 0;
+      border-top: 1px solid #cccccc;
+      margin: 16px 0;
+    }
+
+    /* Lists */
+    ul, ol { margin: 0 0 12px 20px; }
+    li { margin: 6px 0; }
+
+    /* Math styling (kept simple and compatible) */
+    .math {
+      display: block;
+      margin: 8px 0;
+      padding: 6px 8px;
+      background: #f7f7f7;
+      border: 1px solid #e0e0e0;
+      font-family: "Times New Roman", Georgia, serif;
+    }
+    .inline-math {
+      background: #f7f7f7;
+      border: 1px solid #e0e0e0;
+      padding: 0 4px;
+      font-family: "Times New Roman", Georgia, serif;
+    }
+    .note {
+      font-style: italic;
+      color: #333333;
+    }
+
+    /* Utility: subtle labels */
+    .label { font-weight: bold; }
+
+    /* Controls */
+    .controls {
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      border-bottom: 1px solid #dddddd;
+      padding: 8px 20px;
+      z-index: 100;
+    }
+    .btn {
+      display: inline-block;
+      margin: 4px 8px 4px 0;
+      padding: 8px 12px;
+      border: 1px solid #333333;
+      background: #ffffff;
+      color: #111111;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn:hover { background: #f0f0f0; }
+
+    /* Print-friendly (A4) */
+    @page { size: A4; margin: 20mm; }
+    @media print {
+      .controls { display: none; }
+      .container { padding: 0; max-width: none; }
+      a { color: #000000; text-decoration: none; }
+      .math, .inline-math { background: none; border: none; }
+    }
+
+    /* Optional dark mode toggle (simple and compatible) */
+    body.dark {
+      background: #111111;
+      color: #f0f0f0;
+    }
+    body.dark .math, body.dark .inline-math {
+      background: #1a1a1a;
+      border-color: #333333;
+      color: #f0f0f0;
+    }
+    body.dark .hr { border-top-color: #333333; }
+    body.dark .btn {
+      border-color: #f0f0f0;
+      background: #111111;
+      color: #f0f0f0;
+    }
+    body.dark .btn:hover { background: #1a1a1a; }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button class="btn" onclick="printDoc()">Export to PDF (Print)</button>
+    <button class="btn" onclick="toggleDark()">Toggle dark mode</button>
+    <button class="btn" onclick="increaseFont()">A+</button>
+    <button class="btn" onclick="decreaseFont()">A−</button>
+  </div>
+
+  <div class="container">
+    <h1>📘 MID–1 MATHEMATICS</h1>
+    <p><span class="label">Units:</span> 1.1 – 2.6</p>
+
+    <hr class="hr" />
+
+    <h2>🔷 UNIT – 1</h2>
+    <h3>STRAIGHT LINES &amp; CIRCLES</h3>
+
+    <hr class="hr" />
+
+    <h3>1.1 Slope of a Straight Line</h3>
+    <p>The slope (m) of a straight line is the measure of its inclination with the x-axis.</p>
+    <div class="math">m = (y<sub>2</sub> − y<sub>1</sub>) / (x<sub>2</sub> − x<sub>1</sub>)</div>
+    <p><span class="label">Special cases:</span></p>
+    <ul>
+      <li><span class="label">Horizontal line →</span> slope = 0</li>
+      <li><span class="label">Vertical line →</span> slope is infinite</li>
+    </ul>
+    <p><span class="label">Problems:</span></p>
+    <ol>
+      <li>Find the slope of the line joining points (2, 3) and (6, 11).</li>
+      <li>Find the slope of the line: <span class="note">[equation not provided]</span>.</li>
+    </ol>
+
+    <hr class="hr" />
+
+    <h3>1.2 Forms of Equation of a Straight Line</h3>
+    <ul>
+      <li><span class="label">(a) Horizontal Line</span><div class="math">y = c</div></li>
+      <li><span class="label">(b) Vertical Line</span><div class="math">x = c</div></li>
+      <li><span class="label">(c) Point–Slope Form</span><div class="math">y − y<sub>1</sub> = m(x − x<sub>1</sub>)</div></li>
+      <li><span class="label">(d) Two-Point Form</span><div class="math">(y − y<sub>1</sub>)/(y<sub>2</sub> − y<sub>1</sub>) = (x − x<sub>1</sub>)/(x<sub>2</sub> − x<sub>1</sub>)</div></li>
+      <li><span class="label">(e) Slope–Intercept Form</span><div class="math">y = mx + c</div></li>
+      <li><span class="label">(f) Intercept Form</span><div class="math">x/a + y/b = 1</div></li>
+      <li><span class="label">(g) General Form</span><div class="math">A x + B y + C = 0</div></li>
+    </ul>
+
+    <hr class="hr" />
+
+    <h3>1.3 Problems on Straight Lines</h3>
+    <ol>
+      <li>Find equation of the line passing through points (2, 3) and (4, 7).</li>
+      <li>Write equation of a line with x-intercept 4 and y-intercept 6.</li>
+    </ol>
+
+    <hr class="hr" />
+
+    <h3>1.4 Angle Between Two Straight Lines</h3>
+    <div class="math">tan&nbsp;θ = |(m<sub>1</sub> − m<sub>2</sub>) / (1 + m<sub>1</sub> m<sub>2</sub>)|</div>
+    <p><span class="label">Problem:</span> Find the angle between lines having slopes 2 and −1.</p>
+
+    <hr class="hr" />
+
+    <h3>1.5 Conditions for Parallel and Perpendicular Lines</h3>
+    <p><span class="label">Parallel lines:</span></p>
+    <div class="math">m<sub>1</sub> = m<sub>2</sub></div>
+    <p><span class="label">Perpendicular lines:</span></p>
+    <div class="math">m<sub>1</sub> · m<sub>2</sub> = −1</div>
+
+    <hr class="hr" />
+
+    <h3>1.6 Equation of Line Parallel to Given Line</h3>
+    <p>If slope = m and passes through (x<sub>1</sub>, y<sub>1</sub>):</p>
+    <div class="math">y − y<sub>1</sub> = m(x − x<sub>1</sub>)</div>
+
+    <hr class="hr" />
+
+    <h3>1.7 Equation of Line Perpendicular to Given Line</h3>
+    <p>If slope of given line = m, slope of perpendicular line = <span class="inline-math">−1/m</span>.</p>
+
+    <hr class="hr" />
+
+    <h3>1.8 Distance of a Point from a Line</h3>
+    <p>For point (x<sub>1</sub>, y<sub>1</sub>) and line A x + B y + C = 0:</p>
+    <div class="math">d = |A x<sub>1</sub> + B y<sub>1</sub> + C| / √(A² + B²)</div>
+
+    <hr class="hr" />
+
+    <h3>1.9 Distance Between Two Parallel Lines</h3>
+    <p>For lines A x + B y + C<sub>1</sub> = 0 and A x + B y + C<sub>2</sub> = 0:</p>
+    <div class="math">d = |C<sub>1</sub> − C<sub>2</sub>| / √(A² + B²)</div>
+
+    <hr class="hr" />
+
+    <h3>1.10 Point of Intersection of Two Lines</h3>
+    <p>Solve the given two equations simultaneously.</p>
+
+    <hr class="hr" />
+
+    <h3>1.11 Locus</h3>
+    <p>The locus of a point is the path traced by a moving point satisfying a given condition.</p>
+
+    <hr class="hr" />
+
+    <h3>1.12 General Equation of a Circle</h3>
+    <div class="math">x² + y² + 2 g x + 2 f y + c = 0</div>
+
+    <hr class="hr" />
+
+    <h3>1.13 Circle with Centre and Radius</h3>
+    <p>If centre = (h, k) and radius = r:</p>
+    <div class="math">(x − h)² + (y − k)² = r²</div>
+
+    <hr class="hr" />
+
+    <h3>1.14 Circle with Ends of Diameter</h3>
+    <p>If ends of diameter are (x<sub>1</sub>, y<sub>1</sub>) and (x<sub>2</sub>, y<sub>2</sub>):</p>
+    <div class="math">(x − x<sub>1</sub>)(x − x<sub>2</sub>) + (y − y<sub>1</sub>)(y − y<sub>2</sub>) = 0</div>
+
+    <hr class="hr" />
+
+    <h2>🔷 UNIT – 2</h2>
+    <h3>CONIC SECTIONS</h3>
+
+    <hr class="hr" />
+
+    <h3>2.1 Conic Section</h3>
+    <p>A conic section is a curve obtained by the intersection of a plane with a right circular cone.</p>
+
+    <hr class="hr" />
+
+    <h3>2.2 Important Terms</h3>
+    <ul>
+      <li>Focus</li>
+      <li>Directrix</li>
+      <li>Axis</li>
+      <li>Eccentricity</li>
+      <li>Latus Rectum</li>
+    </ul>
+
+    <hr class="hr" />
+
+    <h3>2.3 Parabola</h3>
+    <p><span class="label">Definition:</span> A parabola is the locus of a point whose distance from a fixed point (focus) is equal to its distance from a fixed line (directrix).</p>
+    <p><span class="label">Standard equations:</span></p>
+    <div class="math">y² = 4 a x &nbsp;&nbsp; or &nbsp;&nbsp; x² = 4 a y</div>
+
+    <hr class="hr" />
+
+    <h3>2.4 Ellipse</h3>
+    <p><span class="label">Standard equation:</span></p>
+    <div class="math">x² / a² + y² / b² = 1</div>
+
+    <hr class="hr" />
+
+    <h3>2.5 Hyperbola</h3>
+    <p><span class="label">Standard equation:</span></p>
+    <div class="math">x² / a² − y² / b² = 1</div>
+
+    <hr class="hr" />
+
+    <h3>2.6 Important Exam Questions (5 Marks)</h3>
+    <ol>
+      <li>Find equation of a straight line in different forms.</li>
+      <li>Find angle between two straight lines.</li>
+      <li>Find distance of a point from a line.</li>
+      <li>Find equation of a circle with given centre and radius.</li>
+      <li>Write properties and equations of parabola, ellipse and hyperbola.</li>
+    </ol>
+
+    <hr class="hr" />
+
+    <h3>🧠 QUICK FORMULA SHEET</h3>
+    <ul>
+      <li><span class="label">Slope:</span>
+        <div class="math">m = (y<sub>2</sub> − y<sub>1</sub>) / (x<sub>2</sub> − x<sub>1</sub>)</div>
+      </li>
+      <li><span class="label">Angle between lines:</span>
+        <div class="math">tan&nbsp;θ = |(m<sub>1</sub> − m<sub>2</sub>) / (1 + m<sub>1</sub> m<sub>2</sub>)|</div>
+      </li>
+      <li><span class="label">Distance of a point from a line:</span>
+        <div class="math">d = |A x<sub>1</sub> + B y<sub>1</sub> + C| / √(A² + B²)</div>
+      </li>
+      <li><span class="label">Circle (centre–radius form):</span>
+        <div class="math">(x − h)² + (y − k)² = r²</div>
+      </li>
+    </ul>
+
+    <hr class="hr" />
+
+    <p><span class="label">If you want, I can also:</span></p>
+    <ul>
+      <li>Convert this into short-answer format</li>
+      <li>Highlight most repeated MID questions</li>
+      <li>Give step-by-step solved numericals only</li>
+    </ul>
+  </div>
+
+  <script>
+    // Minimal, old-iPad-friendly JavaScript (no ES6, no frameworks).
+    function printDoc() {
+      // Triggers the native print dialog, allowing "Save as PDF" if supported.
+      window.print();
+    }
+
+    function toggleDark() {
+      // Toggles a simple dark mode class on body.
+      var b = document.body;
+      if (b.className.indexOf('dark') === -1) {
+        b.className += (b.className ? ' ' : '') + 'dark';
+      } else {
+        // Remove 'dark' safely for old browsers
+        var parts = b.className.split(' ');
+        var out = [];
+        for (var i = 0; i < parts.length; i++) {
+          if (parts[i] !== 'dark' && parts[i] !== '') out.push(parts[i]);
+        }
+        b.className = out.join(' ');
+      }
+    }
+
+    // Basic font scaling to improve readability
+    (function() {
+      var baseSize = 16; // implicit default (~16px). We’ll adjust body font-size.
+      function setSize(px) {
+        document.getElementsByTagName('body')[0].style.fontSize = px + 'px';
+      }
+      window.increaseFont = function() {
+        baseSize = baseSize + 1;
+        setSize(baseSize);
+      };
+      window.decreaseFont = function() {
+        if (baseSize > 12) {
+          baseSize = baseSize - 1;
+          setSize(baseSize);
+        }
+      };
+      setSize(baseSize);
+    })();
+  </script>
+</body>
+  </html>
+  
